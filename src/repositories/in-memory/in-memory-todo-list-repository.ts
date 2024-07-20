@@ -3,8 +3,7 @@ import { TodoListRepository } from "../todo-list-repository";
 import { randomUUID } from "crypto";
 
 export class InMemoryTodoListRepository implements TodoListRepository{
-   
-
+    
     public Items: TODOLIST[] = []
 
    async create(data: Prisma.TODOLISTCreateInput){
@@ -28,4 +27,12 @@ export class InMemoryTodoListRepository implements TodoListRepository{
             return todolist
         }
 
+       async save(todolist: TODOLIST) {
+            const itemIndex = this.Items.findIndex(item => item.id === todolist.id)
+
+            this.Items[itemIndex] = todolist
+
+            return todolist
+        }
+       
 }
