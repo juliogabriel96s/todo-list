@@ -4,4 +4,5 @@ export interface TodoListRepository{
     create(data: Prisma.TODOLISTCreateInput): Promise<TODOLIST>
     findById(id:string): Promise<TODOLIST | null>
     save(todolist: TODOLIST): Promise<TODOLIST>
+    delete(todolist: TODOLIST): Promise<void>
 }

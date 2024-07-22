@@ -4,6 +4,7 @@ import { randomUUID } from "crypto";
 
 export class InMemoryTodoListRepository implements TodoListRepository{
     
+    
     public Items: TODOLIST[] = []
 
    async create(data: Prisma.TODOLISTCreateInput){
@@ -35,4 +36,12 @@ export class InMemoryTodoListRepository implements TodoListRepository{
             return todolist
         }
        
+        async delete(todolist: TODOLIST): Promise<void> {
+            const itemIndex = this.Items.findIndex(item => item.id === todolist.id)
+
+            if (itemIndex > -1) {
+                this.Items.splice(itemIndex, 1);  // Use splice to remove the item
+              }
+
+        }
 }
