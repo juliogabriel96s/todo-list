@@ -18,5 +18,5 @@ model TODOLIST {
   title     String
   completed String
 
-  @@map("todo-list")
+  @@map("todolist")
 }

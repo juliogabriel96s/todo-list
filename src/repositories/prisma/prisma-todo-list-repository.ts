@@ -5,7 +5,10 @@ import { prisma } from "@/lib/prisma";
 export class PrismaTodoListRepository implements TodoListRepository{
     async create(data: Prisma.TODOLISTCreateInput) {
         const todolist = await prisma.tODOLIST.create({
-            data
+            data:{
+                title: data.title,
+                completed: data.completed
+            }
         })
 
         return todolist
