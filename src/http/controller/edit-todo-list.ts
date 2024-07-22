@@ -1,23 +1,31 @@
 import { ResourceNotFoundError } from "@/core/errors/errors/resource-not-found-error";
-import { makeDeleteTodoList } from "@/use-cases/factories/make-delete-todo-list";
+import { makeEditTodoList } from "@/use-cases/factories/make-edit-todo-list";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-export async function deleteTodoList(
+export async function editTodoList(
     request: FastifyRequest,
     reply: FastifyReply
 ){
-    const deleteParamsSchema = z.object({
+    const editParamsSchema = z.object({
         userId: z.string(),
     })
 
-    const {userId} = deleteParamsSchema.parse(request.params)
+    const editBodySchema = z.object({
+        title: z.string(),
+        completed: z.string()
+    })
+
+    const {userId} = editParamsSchema.parse(request.params)
+    const {title, completed} = editBodySchema.parse(request.body)
 
     try{
-        const todolistUseCase = makeDeleteTodoList()
+        const todolistUseCase = makeEditTodoList()
 
        const result =  await todolistUseCase.execute({
-            userId
+            userId,
+            title,
+            completed
         })
 
        if(result.isLeft()){
@@ -26,7 +34,7 @@ export async function deleteTodoList(
         }
        }
 
-       return reply.status(204).send()
+       return reply.status(200).send()
     }catch(err){
         return reply.status(500).send({message: 'Internal server error'})
     }
