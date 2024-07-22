@@ -15,20 +15,19 @@ describe('Delete TodoList E2E', () =>{
 it('Should be able delete a todolist', async() =>{
 
     const todolist = await prisma.tODOLIST.create({
-        title: 'Titulo teste',
-        completed: 'Complemento teste'
+       data:{
+          title: 'Titulo teste',
+          completed: 'Complemento teste'
+       }
     })
 
     
 
     const response = await request(app.server)
-    .post('/todo-list')
-    .send({
-        title: 'Titulo teste',
-        completed: 'Complemento teste'
-    })
+    .delete(`/todo-list/${todolist.id}`)
+    .send()
 
-    expect(response.statusCode).toEqual(201)
+    expect(response.statusCode).toEqual(204)
 
 })
 })
